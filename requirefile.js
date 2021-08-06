@@ -1,0 +1,36 @@
+/// Requirement of our project
+
+// we are a book management company
+
+// BOOKS
+//ISBN = ID OF BOOK , TITLE , PUB DATE , LANGUAGE , NUM PAGE , ARRAY OF AUTHOR[] , CATOGARY[]
+
+
+// AUTHORS
+// ID , NAME , BOOKS[]  
+
+
+
+// PUBLICATIONS
+// ID , NAME , BOOKS[]
+
+//We have to design and code  an API over this 
+
+//1. books
+// we need an api for :
+//to get all the books 
+// to get specific book 
+//To get a list of books based on catagory
+//To get a list of books based on language    //Home work Done
+
+// 2. authors 
+//we need an api
+// get all the author
+// to get the specific author
+// to get a list of authors based on books
+
+//3.
+// we need a api 
+//to get all the publication 
+// to get specific publication
+// To get the list of publication based on books
