@@ -24,13 +24,13 @@
 //To get a list of books based on language    //Home work Done
 
 // 2. authors 
-//we need an api
+//we need an api for:
 // get all the author
-// to get the specific author
+// to get the specific author    // Home work Done
 // to get a list of authors based on books
 
 //3.
 // we need a api 
 //to get all the publication 
-// to get specific publication
-// To get the list of publication based on books
+// to get specific publication        //Home work Done by id
+// To get the list of publication based on books  //Home work Done by book isbn number

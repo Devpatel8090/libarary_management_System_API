@@ -10,6 +10,12 @@ const database = require("./database");
 const booky = express(); //instance of express and it's important 
 
 
+                    // 1 . BOOKS
+
+
+   //       1 (A)   Get All The Book 
+
+
 /*
 route              /
 description        get all the books 
@@ -22,6 +28,7 @@ booky.get("/",(req,res) =>{
 return res.json({books:database.books});
 })
 
+    //      1 (B)    Take The Book By ISBN Number  like "12345Book"
 
 /*
 route              /is
@@ -30,12 +37,15 @@ Access             public
 parameter           isbn 
 method              get
 */
-booky.get("/is/:isbn",(req,res) =>{
+booky.get("/is/:isbn",(req,res) => {
     const getSpecificBook = database.books.filter(
         (book) => book.ISBN === req.params.isbn
     );
-// check is array is empty or not 
-    if(getSpecificBook.length === 0){
+
+    // check is array is empty or not 
+
+
+    if(getSpecificBook.length === 0) {
         return res.json({error: `No book found for the ISBN of ${req.params.isbn}`})
     }
 
@@ -43,9 +53,11 @@ booky.get("/is/:isbn",(req,res) =>{
     })
 
 
+        //      1 (C)   Get The Book By Category such as  "tech","space","education"
+
     /*
 route              /c
-description        get specific the books on catagory
+description        get specific the books on category
 Access             public 
 parameter           category 
 method              get
@@ -67,15 +79,17 @@ booky.get("/c/:category",(req,res) =>{
 });
 
 
+        //  1 (D)  Get The Book By Language such as "en", "hindi"
+ 
   /*
-route              /l
+route              /lang
 description        get specific the books on language
 Access             public 
 parameter           language
 method              get
 */  
 
-booky.get("/l/:language" , (req,res) => 
+booky.get("/lang/:language" , (req,res) => 
 {
     const getSpecificBook = database.books.filter((book)=>book.language.includes(req.params.language) );
 
@@ -88,7 +102,12 @@ booky.get("/l/:language" , (req,res) =>
     }
 } );
 
-                    // 2.author
+ 
+
+
+                        // 2.author
+
+        //   2 (A)  Get All The Author
 
    /*
 route              /author
@@ -103,44 +122,48 @@ booky.get("/author", (req,res) => {
 });
 
 
+        //    2 (B) Get Author's Books By Author Id 
 
    /*
-route              /author/book
-description        get all the author based on books
+route              /author/id
+description       get specific author by id
+Access             public 
+parameter           id
+method              get
+*/
+
+booky.get("/author/id/:id" , (req,res) => {
+
+const getSpecificAuthor = database.author.filter(
+    (author) => author.id === parseInt(req.params.id)
+);
+
+if(getSpecificAuthor.length === 0){
+    return res.json({error:`Sorry Dear !! No Book Found Of Author Id No ${req.params.id}`});
+}
+else {
+    return res.json({author:getSpecificAuthor});
+}
+});
+
+
+        //  2 (C)   Get The Author Based On Book
+/*
+route             /author/book/
+description        get list of books on author id
 Access             public 
 parameter           isbn
 method              get
 */
 
-booky.get("/author/book/:isbn" , (req,res) => {
-
-const getSpecificAuthor = database.author.filter(
-    (author) => author.books.includes(req.params.isbn)
-);
-
-if(getSpecificAuthor === 0){
-    return res.json({error:`No author found the books of ${req.author.isbn}`});
-}
-});
-
-
-
-/*
-route             /author/id/
-description        get list of books on author id
-Access             public 
-parameter           authors's name
-method              get
-*/
-
-booky.get("/author/id/:id", (req,res) => {
+booky.get("/author/book/:isbn", (req,res) => {
 
    const  getSpecificAuthor = database.author.filter(
-        (author) => author.id == parseInt(req.params.id)
+        (author) => author.books.includes(req.params.isbn)
         );
 
         if(getSpecificAuthor.length === 0){
-            return res.json({error:`sorry can't found entered id no ${req.params.id}  author`});
+            return res.json({error:`sorry can't found entered id no ${req.params.isbn}  author`});
         }
         else{
             return res.json({book:getSpecificAuthor});
@@ -149,8 +172,10 @@ booky.get("/author/id/:id", (req,res) => {
 });
 
 
+                            // 3 PUBLICATION
 
 
+        //  3 (A)  Get The All The  Publication                          
 
  /*
 route             /publication
@@ -164,11 +189,11 @@ booky.get("/publication", (req,res) => {
 });
     
 
-
+        //  3 (B)  Get  The Specific Publication  On Publication Id
 
 /*
 route             /publication/i
-description        get the publication on the id of that publication
+description        get the publication on the   publication id
 Access             public 
 parameter           publication id
 method              get
@@ -188,6 +213,8 @@ booky.get("/publication/i/:id"  , (req,res) => {
 
 });
 
+
+        //    3 (C)  Get Publication Of The Perticular Id
 
 /*
 route             /publication/book
@@ -213,14 +240,6 @@ else{
 }
 
 });
-
-
-
-
-
-
-
-
 
 
 
