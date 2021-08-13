@@ -58,3 +58,14 @@
 // 1. delete a book 
 // 2.  delete author from book
 // 3.  Delete author from book and related book from autor  (difficult)
+
+
+
+
+
+        //          use the database
+
+        // 1 ) first make model schema 
+        // 2 ) then make the model of the schema 
+        // 3 ) then export the model 
+

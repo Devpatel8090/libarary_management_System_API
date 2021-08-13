@@ -336,7 +336,7 @@ booky.post("/publication/new" , async (req,res) => {
 
 
 });
-
+                    //      3) update
 
 
 /*
@@ -386,20 +386,19 @@ parameter           isbn
 method             put
 */
 
-booky.delete("/book/delete/:isbn" , (req,res)=> {
+booky.delete("/book/delete/:isbn" , async (req,res)=> {
     // which ever book that doesn't match with isbn just send it to updated book database array
     // and rest will be filtered out
    
-    const updatedBookDatabase = database.books.filter((book) =>
-    
-    (book.ISBN !== req.params.isbn));
-    
-    database.books = updatedBooksDatabase;
-    
-    return res.json({books:database.books});
-
+   const updatedBookDatabase = await BookModel.findOneAndDelete(
+       {
+           ISBN : req.params.isbn
+       }
+        );
+    return res.json({
+        books:updatedBookDatabase
+    });
 });
-
 /*
 route             book/delete/author
 description       delete a book
@@ -442,8 +441,99 @@ booky.delete("/book/delete/author/:isbn/:authorId" , (req,res) => {
         message:"succesfully deleted both " 
 
     });
+});
 
 
+
+    /*
+route              /publication/update/book/:isbn
+description        update or add new publication
+Access             public 
+parameter           isbn
+method             put
+*/
+
+
+booky.put("/book/update/:isbn", async (req,res) =>
+{
+    const updatedBook = await BookModel.findOneAndUpdate(
+        {
+            ISBN : req.params.isbn   // unique property to find the book 
+
+        },
+        {
+            title : req.body.bookTitle      // parameter that you want to change
+        },
+
+        {
+            new:true   //update the entire book and show the new book on the frontend 
+        }
+        );
+
+        return res.json({
+            books :updatedBook
+        });
+});
+
+
+
+/*
+route             /book/author/update/
+description        update or add new author
+Access             public 
+parameter           isbn
+method             put
+*/
+
+
+booky.put("/book/author/update/:isbn" , async(req,res) =>
+{
+    //update book databse
+
+const updatedBook = await BookModel.findOneAndUpdate(
+
+
+    {
+            ISBN:req.params.isbn
+    },
+    {
+        $addToSet:{
+            authors:req.body.newAuthor
+        }
+        },
+    {
+          new:true
+
+        }
+    
+     
+);
+
+
+
+
+/// update the author database
+
+const updatedAuthor = await AuthorModel.findOneAndUpdate(
+    {
+        id:req.body.newAuthor
+    },
+    {
+        $addToSet : {
+            books:req.params.isbn
+        }
+    },
+    {
+        new:true
+    }
+);
+
+
+return res.json({
+     books: updatedBook,
+     authors:updatedAuthor,
+     message:"added"
+}) ;
 });
 
 

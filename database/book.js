@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const bookShcema = mongoose.Schema(
+const BookShcema = mongoose.Schema(
     
         {
             ISBN : String,
@@ -15,6 +15,6 @@ const bookShcema = mongoose.Schema(
     
 )
 
-const bookModel = mongoose.model("books",bookShcema);
+const bookModel = mongoose.model("books",BookShcema);
 
 module.exports = bookModel;
